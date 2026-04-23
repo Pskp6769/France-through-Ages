@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aethera® — Cinematic French Heritage Design System
+   All colors MUST be HSL. White base, deep ink, soft grays, restrained French flag accents.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+
+    --ink: 0 0% 4%;
+    --ink-soft: 0 0% 12%;
+    --paper: 40 20% 98%;
+    --mist: 0 0% 95%;
+    --gray-accent: 0 0% 44%;
+    --gray-line: 0 0% 88%;
+
+    /* Restrained French flag accents */
+    --fr-blue: 224 70% 32%;
+    --fr-red: 354 78% 44%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+
+    --primary: 0 0% 4%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 4%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 44%;
+
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 4%;
+
+    --radius: 0.25rem;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(180deg, hsl(0 0% 0% / 0.55) 0%, hsl(0 0% 0% / 0.15) 35%, hsl(0 0% 0% / 0.05) 60%, hsl(0 0% 0% / 0.7) 100%);
+    --gradient-vignette: radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.5) 100%);
+    --gradient-mist: linear-gradient(180deg, hsl(0 0% 100% / 0) 0%, hsl(0 0% 100% / 0.85) 100%);
+    --gradient-tricolor: linear-gradient(90deg, hsl(var(--fr-blue)) 0%, hsl(var(--fr-blue)) 33%, hsl(0 0% 100%) 33%, hsl(0 0% 100%) 66%, hsl(var(--fr-red)) 66%, hsl(var(--fr-red)) 100%);
+
+    /* Motion */
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    cursor: none;
+  }
+
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+  }
+
+  ::selection {
+    background: hsl(var(--ink));
+    color: hsl(var(--background));
+  }
+}
+
+@layer components {
+  .font-serif-display {
+    font-family: 'Instrument Serif', 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  .font-serif-italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+  }
+
+  .text-eyebrow {
+    @apply uppercase tracking-[0.28em] text-xs font-medium;
+  }
+
+  .container-edge {
+    @apply px-6 md:px-12 lg:px-20;
+  }
+
+  /* TrueFocus word reveal */
+  .focus-word {
+    transition: filter 0.7s var(--ease-cinematic), opacity 0.7s var(--ease-cinematic), transform 0.7s var(--ease-cinematic);
+    will-change: filter, opacity, transform;
+  }
+  .focus-word.is-blurred {
+    filter: blur(10px);
+    opacity: 0.35;
+  }
+  .focus-word.is-active {
+    filter: blur(0);
+    opacity: 1;
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s var(--ease-cinematic), transform 1.2s var(--ease-cinematic);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-slow {
+    transition-duration: 1.6s;
+  }
+
+  /* Bento card */
+  .bento-card {
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--ink));
+    color: hsl(var(--background));
+    border-radius: 18px;
+    transition: transform 0.6s var(--ease-cinematic);
+    will-change: transform;
+  }
+  .bento-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(0 0% 100% / 0.15),
+      transparent 55%);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-soft);
+    pointer-events: none;
+  }
+  .bento-card:hover::before { opacity: 1; }
+
+  .bento-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background: hsl(0 0% 100% / 0.6);
+    pointer-events: none;
+    animation: particle-drift 6s linear infinite;
+  }
+
+  /* Floating shapes */
+  .floating-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(hsl(0 0% 100% / 0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  @keyframes drift-slow {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -2%, 0) scale(1.02); }
+  }
+  .animate-drift-slow { animation: drift-slow 18s ease-in-out infinite; }
+
+  @keyframes hero-pan {
+    0%, 100% { transform: scale(1.08) translate3d(0, 0, 0); }
+    50% { transform: scale(1.12) translate3d(-1%, -1%, 0); }
+  }
+  .animate-hero-pan { animation: hero-pan 22s ease-in-out infinite; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fade-up 1s var(--ease-cinematic) both; }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+  }
+  .animate-glow { animation: glow-pulse 4s ease-in-out infinite; }
+
+  @keyframes particle-drift {
+    0% { transform: translate(0, 0); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translate(var(--dx, 60px), var(--dy, -100px)); opacity: 0; }
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee { animation: marquee 40s linear infinite; }
+}
