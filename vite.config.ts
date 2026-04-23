@@ -4,9 +4,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/France-through-Ages/',
   plugins: [react()],
-  server: {
-    port: 5173,
-    open: true,
-  },
 })
  
